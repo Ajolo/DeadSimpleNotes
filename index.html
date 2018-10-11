@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>💀 📝</title>
+    <link rel="stylesheet" href="./index.css" media="screen" />
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
+  </head>
+  <body onload="">
+    <!--
+    <div id = "side-navigation"><ul>
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+      </ul></div>
+    -->
+    <div id = "title-bar">
+      Notes > <input type="text" name="noteTitleInput" placeholder="Title">
+      <span id = "profile-button">
+        <input type="image" src="./media/profile_icon.png" id="img-button" value="Profile">
+      </span>
+      <span id = "save-button">
+        <input type="image" src="./media/save_icon.png" id="img-button" value="Save">
+      </span>
+    </div>
+    <form>
+      <textarea name="noteText" placeholder="Lorem ipsum dolor. . ."></textarea>
+    </form> 
+    <div id = "main-footer">
+      <div><a href="https://github.com/Ajolo/dead-simple-notes" target="_blank">GitHub</a></div>
+      <br>
+      // Node.js v<script>window.document.write(process.versions.node)</script> //
+      Chromium v<script>document.write(process.versions.chrome)</script> //
+      Electron v<script>document.write(process.versions.electron)</script> //
+    </div>
+    <script>
+      require('./renderer.js')
+    </script>
+  </body>
+</html>

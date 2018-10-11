@@ -1,0 +1,20 @@
+{
+  "name": "dead-simple-notes",
+  "version": "1.0.0",
+  "description": "A dead simple note taking app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/Ajolo/dead-simple-notes",
+  "keywords": [
+    "dead",
+    "simple",
+    "notes"
+  ],
+  "author": "Alex Lopez",
+  "license": "TBD",
+  "devDependencies": {
+    "electron": "^3.0.0"
+  }
+}

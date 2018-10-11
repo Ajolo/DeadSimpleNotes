@@ -1,0 +1,100 @@
+* {
+    font-family: 'Inconsolata', monospace;
+}
+
+html {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+form {
+    width: 100%;
+    height: 87%;
+}
+
+ /* title of notes, in the #title-bar */
+input[type=text] {
+    font-size: 18px;
+    outline: none;
+    background-color: dimgrey;
+    border:none;
+    height: 20px;
+    width: 120px;
+    color: white;
+}
+
+#title-bar {
+    font-size: 20px;
+    color:white;
+    background-color: rgb(59, 59, 59);
+    margin: 0;
+    padding-top: 1.6rem;
+    padding-left: 1rem;
+    text-align: left;
+    width: 100%; 
+    height: 40px;
+}
+
+#title-bar ::placeholder {
+    color:rgb(185, 184, 184);
+}
+
+#save-button {
+    float: right;
+    padding-right: 1rem;
+}
+
+#profile-button {
+    float: right;
+    padding-right: 2rem;
+}
+
+#img-button {
+    height: 32px;
+    width: 32px;
+}
+ /* body of notes */
+textarea {
+    font-size: 14px;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 1rem;
+    /*padding-bottom: 100%;*/
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+#main-footer {
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+}
+
+/* not in use 
+
+#side-navigation {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    background-color: #f1f1f1;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+}
+
+*/
