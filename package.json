@@ -15,6 +15,6 @@
   "author": "Alex Lopez",
   "license": "TBD",
   "devDependencies": {
-    "electron": "^3.0.0"
+    "electron": "^3.0.4"
   }
 }
