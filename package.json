@@ -2,7 +2,7 @@
   "name": "dead-simple-notes",
   "version": "1.0.0",
   "description": "A dead simple note taking app",
-  "main": "main.js",
+  "main": "./main.js",
   "scripts": {
     "start": "electron ."
   },
@@ -16,5 +16,11 @@
   "license": "TBD",
   "devDependencies": {
     "electron": "^3.0.4"
+  },
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "firebase-admin": "^6.0.0",
+    "firebase-functions": "^2.0.5",
+    "firebase-tools": "^5.1.0"
   }
 }
