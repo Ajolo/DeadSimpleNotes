@@ -1,21 +1,16 @@
 document.addEventListener("DOMContentLoaded", function(event) { 
-    // console.log("document var", document);
 // // Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 
 
 //////////
 // Globals
 //////////
 
-// const functions = require('firebase-functions');
-
 var currentNote = "0001";
 var currentUID = "ajolo";
+var currentAuthor = "Alex"
 
 
 //////////
@@ -43,42 +38,14 @@ var database = firebase.database();
 
 function initCurrentNote () {
     // title
-    var noteTitle = document.getElementById('noteTitleInput');
-    if (getCurrentNoteTitle() != null) {
-        noteTitle.value = getCurrentNoteTitle();
-    }
-    else {
-        noteTitle.value = "";
-    }
-    // noteTitle.value = getCurrentNoteTitle();
-
+    var noteTitle = document.getElementById('noteTitleInput');    
+    getCurrentNoteTitle();
+    
     // body
     var noteBody = document.getElementById('noteBody');
-    if (getCurrentNoteBody() != null) {
-        noteBody.value = getCurrentNoteBody();
-    }
-    else {
-        noteBody.value = "";
-    }
+    getCurrentNoteBody();
 }   
 initCurrentNote();
-
-getCurrentNoteTitle();
-
-/*
-var userDataRef = firebase.database().ref("userData").orderByKey();
-userDataRef.once("value").then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-        var key = childSnapshot.key;
-        var childData = childSnapshot.val();              // childData will be the actual contents of the child
-
-        var name_val = childSnapshot.val().Name;
-        var id_val = childSnapshot.val().AssignedID;
-    document.getElementById("name").appendChild = name_val;
-    document.getElementById("id").innerHTML = id_val;
-    });
-});
-*/
 
 
 //////////
@@ -137,20 +104,6 @@ function testGetMethodOnce () {
 }
 // testGetMethodOnce(); 
 
-// alternatively . . .
-
-/* 
-To read data at a path and listen for changes, use the on() or once() methods 
-of firebase.database.Reference to observe events.
-
-You can use the value event to read a static snapshot of the contents at a given 
-path, as they existed at the time of the event. This method is triggered once when 
-the listener is attached and again every time the data, including children, changes. 
-The event callback is passed a snapshot containing all data at that location, including 
-child data. If there is no data, the snapshot will return false when you call exists() 
-and null when you call val() on it.
-*/
-
 function testGetMethodListen () {
     database.ref('userData/numUsers').on('value', function(snapshot) {
         console.log(snapshot.val());
@@ -166,36 +119,29 @@ function testGetMethodListen () {
     });
 }
 // testGetMethodListen(); 
-/*
-function getCurrentNoteTitle (){
-    return database.ref('userData/notes/' + currentNote + '/title').on('value', function(snapshot) {
-        console.log(snapshot.val());
-    });
-}
-// getCurrentNoteTitle();
-*/
 
-function getCurrentNoteTitle (){
-    var returnMe = console.log(database.ref('userData/notes/' + currentNote + '/title').once('value'));
-    return returnMe;
+async function getCurrentNoteTitle (){    
+    var titleRef = database.ref('userData/notes/' + currentNote + '/title').once('value').then(function(snapshot) {{
+        return snapshot.val();
+    }}); 
+    var snapshotVal = await titleRef; 
+    
+    var noteTitle = document.getElementById('noteTitleInput');
+    noteTitle.value = snapshotVal;
+    // console.log("title has been set as:", noteTitle.value);
+    return;
 }
 
-function getCurrentNoteBody (){
-    // return database.ref('userData/notes/' + currentNote + '/body').once('value');
-    /*
-    database.ref('userData/notes/' + currentNote + '/body').on('value', snapshot => {
-        return(snapshot.val());
-    });
-    */
-    /*
-    database.ref('userData/notes/' + currentNote + '/body').on('value').then((response) => {
-        return (response);
-    });;
-    /*
-    return database.ref('/userData/notes' + currentNote + '/body').once('value').then(function(snapshot) {
-        var value = (snapshot.val()) || 'Anonymous';
-    });
-    */
+async function getCurrentNoteBody (){
+    var bodyRef = database.ref('userData/notes/' + currentNote + '/body').once('value').then(function(snapshot) {{
+        return snapshot.val();
+    }}); 
+    var snapshotVal = await bodyRef; 
+    
+    var noteBody = document.getElementById('noteBody');
+    noteBody.value = snapshotVal;
+    // console.log("body has been set as:", noteBody.value);
+    return;
 }
 
 
@@ -208,7 +154,7 @@ function getCurrentNoteBody (){
 function setUserCount (newNum) {
     database.ref('userData/numUsers').set(newNum);
 }
-setUserCount(1);
+// setUserCount(1);
 
 function setNoteCount (newNum) {
     database.ref('userData/numNotes').set(newNum);
@@ -220,10 +166,35 @@ function setNoteTitle (newTitle) {
 }
 // setNoteTitle("even better title");
 
+function setCurrentNoteAuthor (currentAuthor) {
+    database.ref('userData/notes/' + currentNote + '/author').set(currentAuthor);
+}
+// setCurrentNoteAuthor("Alex")
+
 function setNoteBody (newBody) {
     database.ref('userData/notes/' + currentNote + '/body').set(newBody);
 }
 
+async function iterateNoteCount () {
+    // get current num
+    var currentNumRef = database.ref('userData/numNotes/').once('value').then(function(snapshot) {{
+        return snapshot.val();
+    }}); 
+    var currentNum = await currentNumRef; 
+    console.log("currentNum =", currentNum+1); 
+    database.ref('userData/numNotes').set(currentNum+1);
+}
+// iterateNoteCount();
+
+async function decrementNoteCount () {
+    // get current num
+    var currentNumRef = database.ref('userData/numNotes/').once('value').then(function(snapshot) {{
+        return snapshot.val();
+    }}); 
+    var currentNum = await currentNumRef; 
+    database.ref('userData/numNotes').set(currentNum-1);
+}
+// decrementNoteCount();
 
 //////////
 // PUSH (POST)
@@ -267,15 +238,15 @@ function pushNoteData (author, title, noteID, body) {
 //      the tab focus to the next tabIndex
 var textareas = document.getElementsByTagName('textarea');
 var count = textareas.length;
-for(var i=0;i<count;i++){
-    textareas[i].onkeydown = function(e){
-        if(e.keyCode==9 || e.which==9){
+for (var i = 0; i < count; i++) {
+    textareas[i].onkeydown = function(e) {
+        if (e.keyCode == 9 || e.which == 9) {
             e.preventDefault();
             var s = this.selectionStart;
             this.value = this.value.substring(0,this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
             // for a full tab:
             this.selectionEnd = s+1; 
-            // for a tab of custom length
+            // for a tab of custom length:
             // this.selectionEnd = s + "\t".length;
         }
     }
